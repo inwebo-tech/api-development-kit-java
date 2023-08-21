@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xml:lang="en"
+      lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>inWebo API Java Code Samples</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css"/>
+    <script type="text/javascript" src="js/jquery.min.js"/>
+    <script type="text/javascript" src="js/bootstrap.min.js"/>
+    <script type="text/javascript" src="js/bootstrap-multiselect.js"/>
+</head>
+<body class="body">
+<h1 class="text-center">inWebo API - Groups Management</h1>
+<br/>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#login').multiselect({
+            includeSelectAllOption: true,
+            enableFiltering: true
+        });
+    });
+    $(document).ready(function() {
+        $('#loginDelete').multiselect({
+            includeSelectAllOption: true,
+            enableFiltering: true
+        });
+    });
+</script>
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th style="width: 150px;">Name</th>
+            <th>Service Policy Id</th>
+            <th style="width: 100px;">Logins</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="group : ${selections}">
+            <td th:text="${group.id}"></td>
+            <td th:text="${group.name}"></td>
+            <td th:text="${group.servicePolicy}"></td>
+            <td>
+                <a th:each="user : ${group.users}"
+                   href="userDetails.html"
+                   th:href="@{|/users/${user.id}|}"
+                   th:text="${user.login}"></a>
+            </td>
+            <td>
+                <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                        th:attr="data-target='#groupModalAdd'+ ${group.id}">ADD USERS
+                </button>
+                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                        th:attr="data-target='#groupModalDelete'+ ${group.id}">DELETE USERS
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" th:id="'groupModalAdd'+ ${group.id}" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title" th:text="'Add Users in ' + ${group.name}"/>
+                            </div>
+                            <div class="modal-body">
+                                <form class="form-horizontal"
+                                      role="form"
+                                      action="#"
+                                      th:action="@{|/groups/${group.id}/addUser|}"
+                                      method="POST">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2" for="loginDelete">Login</label>
+                                        <div class="col-sm-10">
+                                            <select id="loginDelete" name="ids[]" multiple="multiple" required="autofocus">
+                                                <option th:each="u : ${allUsers}" th:value="${u.id}" th:text="${u.login}">
+                                                    [login]
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button class="btn btn-primary" type="submit">Add</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" th:id="'groupModalDelete'+ ${group.id}" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title" th:text="'Delete Users in ' + ${group.name}"/>
+                            </div>
+                            <div class="modal-body">
+                                <form class="form-horizontal"
+                                      role="form"
+                                      action="#"
+                                      th:action="@{|/groups/${group.id}/deleteUser|}"
+                                      method="POST">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2" for="login">Login</label>
+                                        <div class="col-sm-10">
+                                            <select id="login" name="ids[]" multiple="multiple" required="autofocus">
+                                                <option th:each="u : ${allUsers}" th:value="${u.id}" th:text="${u.login}">
+                                                    [login]
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button class="btn btn-primary" type="submit">Delete</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br/>
+    <p><a href="/" class="btn btn-default" role="button">Go Home</a></p>
+</div>
+</body>
+</html>

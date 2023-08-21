@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xml:lang="en" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>inWebo API Java Code Samples</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css"/>
+    <script src="../../js/jquery.min.js"/>
+    <script src="../../js/bootstrap.min.js"/>
+</head>
+<body class="body">
+<h1 class="text-center">inWebo API - Users Management</h1>
+<br/>
+<div class="container">
+    <h3><span th:if="${user['new']}" th:remove="tag">New</span> User</h3>
+    <br/>
+    <form th:object="${user}" th:method="${user['new']} ? post : put"
+          action="./userDetails.html"
+          th:action="@{${#httpServletRequest.servletPath}}"
+          class="form-horizontal"
+          role="form"
+          id="add-user-form">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="firstName">First Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{firstName}" id="firstName"
+                       placeholder="Enter first name" required="autofocus"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="lastName">Last Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{lastName}" id="lastName"
+                       placeholder="Enter last name" required="autofocus"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="phone">Phone</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control bfh-phone" th:field="*{phone}" id="phone" placeholder="Enter phone" />
+            </div>
+        </div>
+        <div class="form-group" th:classappend="${#fields.hasErrors('email')} ? has-error">
+            <label class="control-label col-sm-2" for="email">Email</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{email}" id="email" placeholder="Enter email"
+                       required="autofocus"/>
+                <span class="help-block" th:errors="*{email}">[error]</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="login">Login</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{login}" id="login" placeholder="Enter login"
+                       required="autofocus"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="status">Status</label>
+            <div class="col-sm-10">
+                <select class="form-control" th:field="*{status}" id="status">
+                    <option th:each="s : ${T(com.inwebo.api.sample.entities.Status).values()}" th:value="${s}"
+                            th:text="${s}" th:selected="${s == status}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="role">Role</label>
+            <div class="col-sm-10">
+                <select class="form-control" th:field="*{role}" id="role">
+                    <option th:each="r : ${T(com.inwebo.api.sample.entities.Role).values()}" th:value="${r}"
+                            th:text="${r}" th:selected="${r == role}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group" th:if="${user['new']}" >
+            <label class="control-label col-sm-2" for="codeType">Activation type</label>
+            <div class="col-sm-10">
+                <select class="form-control" th:field="*{codeType}" id="codeType">
+                    <option th:each="c : ${T(com.inwebo.api.sample.entities.CodeType).values()}" th:value="${c}"
+                            th:text="${c}" th:selected="${c == codeType}"></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group" th:if="${user['new']}">
+            <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox">
+                    <label><input id="bookmarks" type="checkbox" th:field="*{bookmarks}" />Associate all service bookmarks</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button class="btn btn-primary" th:if="${user['new']}" type="submit">Add User</button>
+                <button class="btn btn-primary" th:unless="${user['new']}" type="submit">Update User</button>
+                <button onclick="window.history.go(-1)" class="btn btn-default">Back</button>
+                <a href="/" class="btn btn-default" role="button">Go Home</a>
+            </div>
+        </div>
+
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xml:lang="en"
+      lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>inWebo API Java Code Samples</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <script src="js/jquery.min.js"/>
+    <script src="js/bootstrap.min.js"/>
+</head>
+<body class="body">
+<h1 class="text-center">inWebo API - Users Management</h1>
+<br/>
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th style="width: 150px;">Name</th>
+            <th>Login</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th style="width: 100px;">Groups</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${selections}">
+            <td>
+                <a href="userDetails.html"
+                   th:href="@{|/users/${user.id}|}"
+                   th:text="${user.id}"></a>
+            </td>
+            <td th:text="|${user.firstName} ${user.lastName}|"></td>
+            <td th:text="${user.login}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.phone}"></td>
+            <td th:text="${user.role}"></td>
+            <td th:text="${user.status}"></td>
+            <td>
+                <span th:each="group : ${user.groups}" th:text="${group.name}">
+                    [Group]&nbsp;
+                </span>
+            </td>
+            <td>
+                <a href="#"
+                   class="btn btn-info btn-sm"
+                   role="button"
+                   th:href="@{|/users/${user.id}/addDevice|}">Add Device</a>
+                <a href="#"
+                   class="btn btn-danger btn-sm"
+                   role="button"
+                   th:if="${user.role != T(com.inwebo.api.sample.entities.Role).ADMIN}"
+                   th:href="@{|/users/${user.id}/delete|}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br/>
+    <p><a href="/" class="btn btn-default" role="button">Go Home</a> <a href="userDetails.html" class="btn btn-primary" th:href="@{|/users/new|}" role="button">Add User</a></p>
+</div>
+</body>
+</html>

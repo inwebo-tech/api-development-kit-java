@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xml:lang="en" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>inWebo API Java Code Samples</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+    <script src="../js/jquery.min.js"/>
+    <script src="../js/bootstrap.min.js"/>
+</head>
+<body class="body">
+<h1 class="text-center">inWebo API - Users Management</h1>
+<br/>
+<div class="container">
+    <h3>User Information</h3>
+    <table class="table table-striped" style="width:600px;">
+        <tr>
+            <th>Id</th>
+            <td th:text="${user.id}">[Id]</td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td><b th:text="|${user.firstName} ${user.lastName}|">[firstname lastname]</b></td>
+        </tr>
+        <tr>
+            <th>Login</th>
+            <td th:text="${user.login}">[login]</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td th:text="${user.email}">[email]</td>
+        </tr>
+        <tr>
+            <th>Phone</th>
+            <td th:text="${user.phone}">[phone]</td>
+        </tr>
+        <tr>
+            <th>Role</th>
+            <td th:text="${user.role}">[role]</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td th:text="${user.status}">[status]</td>
+        </tr>
+        <tr th:if="${! #strings.isEmpty(code)}">
+            <th>Activation code</th>
+            <td>
+                <a href="activate.html" th:if="${activeCode == true}" th:href="@{|/users/${user.id}/activate|}" th:text="${code}">[code]</a>
+                <span th:if="${activeCode == false}" th:text="${code}">[code]</span>
+            </td>
+        </tr>
+    </table>
+    <p><a href="/" class="btn btn-default" role="button">Go Home</a> <button onclick="window.history.go(-1)" class="btn btn-default">Back</button> <a th:href="@{|${user.id}/edit.html|}" href="./createOrUpdateUserForm.html" class="btn btn-primary" role="button">Edit User</a></p>
+</div>
+</body>
+</html>

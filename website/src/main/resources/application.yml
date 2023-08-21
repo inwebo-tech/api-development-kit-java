@@ -1,0 +1,8 @@
+# APPLICATION SETTINGS
+spring.main.show-banner: false
+
+# INWEBO SETTINGS
+inwebo.api.certificate.path: <CERTIFICATE_PATH>
+inwebo.api.certificate.password: <CERTIFICATE_PASSWORD>
+inwebo.api.service-id: 12
+inwebo.api.rest-base-url: https://api.myinwebo.com
